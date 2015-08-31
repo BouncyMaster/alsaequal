@@ -76,7 +76,6 @@ static snd_pcm_sframes_t equal_transfer(snd_pcm_extplug_t *ext,
 		then swap it back during the interleave call below */
 	deinterleave(src, dst, size, equal->control_data->channels);
 	
-	/* Interleaved samples so run one at a time */
 	for(j = 0; j < equal->control_data->channels; j++) {
 		equal->klass->connect_port(equal->channel[j],
 			equal->control_data->input_index,
@@ -162,7 +161,7 @@ SND_PCM_PLUGIN_DEFINE_FUNC(equal)
 		const char *id;
 		if (snd_config_get_id(n, &id) < 0)
 			continue;
-		if (strcmp(id, "comment") == 0 || strcmp(id, "type") == 0)
+		if (strcmp(id, "comment") == 0 || strcmp(id, "type") == 0 || strcmp(id, "hint") == 0)
 			continue;
 		if (strcmp(id, "slave") == 0) {
 			sconf = n;
@@ -263,3 +262,4 @@ SND_PCM_PLUGIN_DEFINE_FUNC(equal)
 }
 
 SND_PCM_PLUGIN_SYMBOL(equal);
+

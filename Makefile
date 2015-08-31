@@ -5,10 +5,9 @@ Q	?= @
 
 # Build Tools
 CC 	:= gcc
-# Throws the code after the ROM Callback at 0x0100
-CFLAGS := -I. -g -O2 -Wall -fomit-frame-pointer -fstrength-reduce -funroll-loops -ffast-math -fPIC -DPIC
+CFLAGS := -I. -O2 -Wall -funroll-loops -ffast-math -fPIC -DPIC
 LD := gcc
-LDFLAGS := -O2 -Wall -shared -nostartfiles
+LDFLAGS := -O2 -Wall -shared -lasound
 
 SND_PCM_OBJECTS = pcm_equal.o ladspa_utils.o
 SND_PCM_LIBS =
@@ -46,10 +45,11 @@ clean:
 
 install: all
 	@echo Installing...
-	$(Q)install -m 644 $(SND_PCM_BIN) /usr/lib/alsa-lib/
-	$(Q)install -m 644 $(SND_CTL_BIN) /usr/lib/alsa-lib/
+	$(Q)install -m 644 $(SND_PCM_BIN) ${DESTDIR}/usr/lib/alsa-lib/
+	$(Q)install -m 644 $(SND_CTL_BIN) ${DESTDIR}/usr/lib/alsa-lib/
 
 uninstall:
-	@echo Installing...
-	$(Q)rm /usr/lib/alsa-lib/$(SND_PCM_BIN)
-	$(Q)rm /usr/lib/alsa-lib/$(SND_CTL_BIN)
+	@echo Un-installing...
+	$(Q)rm ${DESTDIR}/usr/lib/alsa-lib/$(SND_PCM_BIN)
+	$(Q)rm ${DESTDIR}/usr/lib/alsa-lib/$(SND_CTL_BIN)
+	
