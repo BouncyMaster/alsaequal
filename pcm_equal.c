@@ -24,7 +24,7 @@
 #include <alsa/control.h>
 #include <linux/soundcard.h>
 
-#include "ladspa.h"
+#include <ladspa.h>
 #include "ladspa_utils.h"
 
 typedef struct snd_pcm_equal {

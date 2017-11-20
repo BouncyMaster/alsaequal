@@ -21,7 +21,7 @@
 #include <alsa/asoundlib.h>
 #include <alsa/control_external.h>
 
-#include "ladspa.h"
+#include <ladspa.h>
 #include "ladspa_utils.h"
 
 typedef struct snd_ctl_equal_control {
@@ -263,8 +263,8 @@ SND_CTL_PLUGIN_DEFINE_FUNC(equal)
 	for(i = 0; i < equal->num_input_controls; i++) {
 		if(equal->control_data->control[i].type == LADSPA_CNTRL_INPUT) {
 			index = equal->control_data->control[i].index;
-			if(equal->klass->PortDescriptors[index] &
-					(LADSPA_PORT_INPUT | LADSPA_PORT_CONTROL) == 0) {
+			if((equal->klass->PortDescriptors[index] &
+					(LADSPA_PORT_INPUT | LADSPA_PORT_CONTROL)) == 0) {
 				SNDERR("Problem with control file %s, %d.", controls, index);
 				return -1;
 			}

@@ -6,7 +6,7 @@
 #ifndef LADSPA_SDK_LOAD_PLUGIN_LIB
 #define LADSPA_SDK_LOAD_PLUGIN_LIB
 
-#include "ladspa.h"
+#include <ladspa.h>
 
 /* This function call takes a plugin library filename, searches for
    the library along the LADSPA_PATH, loads it with dlopen() and
