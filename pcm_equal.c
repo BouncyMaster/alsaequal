@@ -231,12 +231,14 @@ SND_PCM_PLUGIN_DEFINE_FUNC(equal)
 	}
 
 	/* Make sure that the control file makes sense */
-	if(equal->klass->PortDescriptors[equal->control_data->input_index] !=
+	if((equal->klass->PortDescriptors[equal->control_data->input_index] &   
+			(LADSPA_PORT_INPUT | LADSPA_PORT_AUDIO)) !=
 			(LADSPA_PORT_INPUT | LADSPA_PORT_AUDIO)) {
 		SNDERR("Problem with control file %s.", controls);
 		return -1;
 	}
-	if(equal->klass->PortDescriptors[equal->control_data->output_index] !=
+	if((equal->klass->PortDescriptors[equal->control_data->output_index] & 
+			(LADSPA_PORT_OUTPUT | LADSPA_PORT_AUDIO)) !=
 			(LADSPA_PORT_OUTPUT | LADSPA_PORT_AUDIO)) {
 		SNDERR("Problem with control file %s.", controls);
 		return -1;

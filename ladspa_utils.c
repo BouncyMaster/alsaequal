@@ -354,10 +354,12 @@ LADSPA_Control * LADSPAcontrolMMAP(const LADSPA_Descriptor *psDescriptor,
 						default_controls->control[index].type = LADSPA_CNTRL_OUTPUT;
 					}
 					index++;
-				} else if(psDescriptor->PortDescriptors[i] ==
+				} else if((psDescriptor->PortDescriptors[i] &
+						(LADSPA_PORT_INPUT | LADSPA_PORT_AUDIO)) ==
 						(LADSPA_PORT_INPUT | LADSPA_PORT_AUDIO)) {
 					default_controls->input_index = i;
-				} else if(psDescriptor->PortDescriptors[i] ==
+				} else if((psDescriptor->PortDescriptors[i] & 
+						(LADSPA_PORT_OUTPUT | LADSPA_PORT_AUDIO)) ==
 						(LADSPA_PORT_OUTPUT | LADSPA_PORT_AUDIO)) {
 					default_controls->output_index = i;
 				}
