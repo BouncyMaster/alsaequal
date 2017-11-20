@@ -41,7 +41,7 @@ int LADSPADefault(const LADSPA_PortRangeHint * psPortRangeHint,
 #define LADSPA_CNTRL_OUTPUT	1
 typedef struct LADSPA_Control_Data_ {
 	int index;
-	LADSPA_Data data[16];	/* Max number of channels, would be nicer if 
+	LADSPA_Data data[16];	/* Max number of channels, would be nicer if
 								this wasn't a fixed number */
 	int type;
 } LADSPA_Control_Data;

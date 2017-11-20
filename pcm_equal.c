@@ -65,17 +65,17 @@ static snd_pcm_sframes_t equal_transfer(snd_pcm_extplug_t *ext,
 	snd_pcm_equal_t *equal = (snd_pcm_equal_t *)ext;
 	float *src, *dst;
 	int j;
-	
+
 	/* Calculate buffer locations */
 	src = (float*)(src_areas->addr +
 			(src_areas->first + src_areas->step * src_offset)/8);
 	dst = (float*)(dst_areas->addr +
-			(dst_areas->first + dst_areas->step * dst_offset)/8);	
-	
+			(dst_areas->first + dst_areas->step * dst_offset)/8);
+
 	/* NOTE: swap source and destination memory space when deinterleaved.
 		then swap it back during the interleave call below */
 	deinterleave(src, dst, size, equal->control_data->channels);
-	
+
 	for(j = 0; j < equal->control_data->channels; j++) {
 		equal->klass->connect_port(equal->channel[j],
 			equal->control_data->input_index,
@@ -85,7 +85,7 @@ static snd_pcm_sframes_t equal_transfer(snd_pcm_extplug_t *ext,
 			src + j*size);
 		equal->klass->run(equal->channel[j], size);
 	}
-	
+
 	interleave(src, dst, size, equal->control_data->channels);
 
 	return size;
@@ -129,7 +129,7 @@ static int equal_init(snd_pcm_extplug_t *ext)
 	/* Connect controls to the LADSPA Plugin */
 	for(j = 0; j < equal->control_data->channels; j++) {
 		for(i = 0; i < equal->control_data->num_controls; i++) {
-			equal->klass->connect_port(equal->channel[j], 
+			equal->klass->connect_port(equal->channel[j],
 					equal->control_data->control[i].index,
 					&equal->control_data->control[i].data[j]);
 		}
@@ -154,7 +154,7 @@ SND_PCM_PLUGIN_DEFINE_FUNC(equal)
 	const char *module = "Eq10";
 	long channels = 2;
 	int err;
-	
+
 	/* Parse configuration options from asoundrc */
 	snd_config_for_each(i, next, conf) {
 		snd_config_t *n = snd_config_iterator_entry(i);
@@ -231,13 +231,13 @@ SND_PCM_PLUGIN_DEFINE_FUNC(equal)
 	}
 
 	/* Make sure that the control file makes sense */
-	if((equal->klass->PortDescriptors[equal->control_data->input_index] &   
+	if((equal->klass->PortDescriptors[equal->control_data->input_index] &
 			(LADSPA_PORT_INPUT | LADSPA_PORT_AUDIO)) !=
 			(LADSPA_PORT_INPUT | LADSPA_PORT_AUDIO)) {
 		SNDERR("Problem with control file %s.", controls);
 		return -1;
 	}
-	if((equal->klass->PortDescriptors[equal->control_data->output_index] & 
+	if((equal->klass->PortDescriptors[equal->control_data->output_index] &
 			(LADSPA_PORT_OUTPUT | LADSPA_PORT_AUDIO)) !=
 			(LADSPA_PORT_OUTPUT | LADSPA_PORT_AUDIO)) {
 		SNDERR("Problem with control file %s.", controls);
@@ -258,10 +258,9 @@ SND_PCM_PLUGIN_DEFINE_FUNC(equal)
 			SND_PCM_EXTPLUG_HW_FORMAT, SND_PCM_FORMAT_FLOAT);
 
 	*pcmp = equal->ext.pcm;
-	
+
 	return 0;
 
 }
 
 SND_PCM_PLUGIN_SYMBOL(equal);
-
