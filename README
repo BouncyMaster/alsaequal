@@ -63,8 +63,8 @@ ctl.<name_equal> {
 	type equal;
 	controls -- filename used to store the equalizer settings,
 					the default is $HOME/.alsaequal.bin
-	library -- location of the LADSPA library, the default is
-					"/usr/lib/ladspa/caps.so"
+	library -- location of the LADSPA library, the default is to search for
+					"caps.so" in LD_LIBRARY_PATH
 	module -- module name within the LADSPA library, the deafault
 					is "Eq10"
 	channels -- number of channels, the default is 2
@@ -78,8 +78,8 @@ pcm.<name_pcm> {
 					the data type, outputig directly to hw won't;
 	controls -- filename used to store the equalizer settings,
 					the default is $HOME/.alsaequal.bin
-	library -- location of the LADSPA library, the default is
-					"/usr/lib/ladspa/caps.so"
+	library -- location of the LADSPA library, the default is to search for
+					"caps.so" in LD_LIBRARY_PATH
 	module -- module name within the LADSPA library, the deafault
 					is "Eq10"
 	channels -- number of channels, the default is 2
