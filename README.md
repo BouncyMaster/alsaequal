@@ -9,27 +9,30 @@ Eq10 CAPS LADSPA plugin. You are welcome to try it with other plugins, it
 may work. Let me know how it goes, you can reach me at
 <charles@thedigitalmachine.net>.
 
-INSTALL:
+# INSTALL:
 Download the latest version of the plugin and:
 
+``` bash
 tar xvjf alsaequal-x.x.tar.bz2
 cd alsaequal-x.x
 make
 sudo make install
+```
 
-DEPENDANCIES:
+# DEPENDANCIES:
 - CAPS LADSPA Package -- <http://quitte.de/dsp/caps.html>, it's
-available as a package in Ubuntu, i.e. "sudo apt-get install caps"
+available as a package in Ubuntu, i.e. `sudo apt-get install caps`
 - ALSA Development headers and alsa-lib -- you may already have it
 as part of your linux distro, you can install in Ubuntu with
-"sudo apt-get install libasound2-dev"
+`sudo apt-get install libasound2-dev`
 
 
-USAGE:
+# USAGE:
 After installing you will have to modify your local .asoundrc alsa
 configuration file, adding something like this. If you're not using
-sound card 0 modify "plughw:0,0" accordingly.
+sound card 0 modify `"plughw:0,0"` accordingly.
 
+``` info
 ctl.equal {
 	type equal;
 }
@@ -39,26 +42,33 @@ pcm.plugequal {
 	slave.pcm "plughw:0,0";
 }
 
-pcm.equal{
+pcm.equal {
     type plug;
     slave.pcm plugequal;
 }
+```
 
 You can play audio through alsaequal by addressing the plugin by name, e.g.:
+``` bash
 mpg123 -a equal 06.Back_In_Black.mp3
+```
 
 You can adjust the frequency response of the equalizer by using any alsa
-mixer, e.g.:  alsamixer -D equal
+mixer, e.g.:
+``` bash
+alsamixer -D equal
+```
 
-HELP:
+# HELP:
 If you need any help just let me know, you can reach me at:
 <charles@thedigitalmachine.net>. Please keep in mind that this is
 a development release and may have bugs.
 
-More Advanced Stuff:
+# More Advanced Stuff:
 If you want to try out alsaequal with other plugins the configuration
 (asoundrd) structure follows:
 
+``` info
 ctl.<name_equal> {
 	type equal;
 	controls -- filename used to store the equalizer settings,
@@ -84,11 +94,14 @@ pcm.<name_pcm> {
 					is "Eq10"
 	channels -- number of channels, the default is 2
 }
+```
 
 You will also probably need to pump the data through a plug to change
 the format to float, which is all alsaequal supports.
 
-pcm.<name_pcm_plug>{
+``` info
+pcm.<name_pcm_plug> {
     type plug;
     slave.pcm <name_pcm>;
 }
+```
