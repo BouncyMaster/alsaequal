@@ -66,7 +66,7 @@ a development release and may have bugs.
 
 # More Advanced Stuff:
 If you want to try out alsaequal with other plugins the configuration
-(asoundrd) structure follows:
+(asoundrc) structure follows:
 
 ``` info
 ctl.<name_equal> {
