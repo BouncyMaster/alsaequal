@@ -67,10 +67,10 @@ static snd_pcm_sframes_t equal_transfer(snd_pcm_extplug_t *ext,
 	int j;
 
 	/* Calculate buffer locations */
-	src = (float*)(src_areas->addr +
-			(src_areas->first + src_areas->step * src_offset)/8);
-	dst = (float*)(dst_areas->addr +
-			(dst_areas->first + dst_areas->step * dst_offset)/8);
+	src = (float*) src_areas->addr +
+			(src_areas->first + src_areas->step * src_offset)/(8*sizeof(float));
+	dst = (float*) dst_areas->addr +
+			(dst_areas->first + dst_areas->step * dst_offset)/(8*sizeof(float));
 
 	/* NOTE: swap source and destination memory space when deinterleaved.
 		then swap it back during the interleave call below */

@@ -29,7 +29,6 @@ dlopenLADSPA(const char * pcFilename, int iFlag) {
   const char * pcLADSPAPath;
   const char * pcStart;
   int iEndsInSO;
-  int iNeedSlash;
   size_t iFilenameLength;
   void * pvResult;
 
@@ -60,6 +59,7 @@ dlopenLADSPA(const char * pcFilename, int iFlag) {
 
       pcStart = pcLADSPAPath;
       while (*pcStart != '\0') {
+	int iNeedSlash = 0;
 	pcEnd = pcStart;
 	while (*pcEnd != ':' && *pcEnd != '\0')
 	  pcEnd++;
@@ -67,7 +67,7 @@ dlopenLADSPA(const char * pcFilename, int iFlag) {
 	pcBuffer = malloc(iFilenameLength + 2 + (pcEnd - pcStart));
 	if (pcEnd > pcStart)
 	  strncpy(pcBuffer, pcStart, pcEnd - pcStart);
-	iNeedSlash = 0;
+
 	if (pcEnd > pcStart)
 	  if (*(pcEnd - 1) != '/') {
 	    iNeedSlash = 1;
@@ -141,7 +141,6 @@ const LADSPA_Descriptor * LADSPAfind(void * pvLADSPAPluginLibrary,
 			   const char * pcPluginLibraryFilename,
 			   const char * pcPluginLabel) {
 
-  const LADSPA_Descriptor * psDescriptor;
   LADSPA_Descriptor_Function pfDescriptorFunction;
   unsigned long lPluginIndex;
 
@@ -163,7 +162,7 @@ const LADSPA_Descriptor * LADSPAfind(void * pvLADSPAPluginLibrary,
   }
 
   for (lPluginIndex = 0;; lPluginIndex++) {
-    psDescriptor = pfDescriptorFunction(lPluginIndex);
+    const LADSPA_Descriptor * psDescriptor = pfDescriptorFunction(lPluginIndex);
     if (psDescriptor == NULL) {
       fprintf(stderr,
 	      "Unable to find label \"%s\" in plugin library file \"%s\".\n",
@@ -264,7 +263,6 @@ void LADSPAcontrolUnMMAP(LADSPA_Control *control)
 LADSPA_Control * LADSPAcontrolMMAP(const LADSPA_Descriptor *psDescriptor,
 		const char *controls_filename, unsigned int channels)
 {
-	const char * homePath;
 	char *filename;
 	unsigned long i, j, num_controls, index;
 	LADSPA_Control *default_controls;
@@ -285,7 +283,7 @@ LADSPA_Control * LADSPAcontrolMMAP(const LADSPA_Descriptor *psDescriptor,
 		}
 		sprintf(filename, "%s", controls_filename);
 	} else {
-		homePath = getenv("HOME");
+		const char * homePath = getenv("HOME");
 		if (homePath==NULL) {
 			return NULL;
 		}
@@ -306,6 +304,7 @@ LADSPA_Control * LADSPAcontrolMMAP(const LADSPA_Descriptor *psDescriptor,
 
 	if(num_controls == 0) {
 		fprintf(stderr, "No Controls on LADSPA Module.\n");
+		free(filename);
 		return NULL;
 	}
 
@@ -405,8 +404,8 @@ LADSPA_Control * LADSPAcontrolMMAP(const LADSPA_Descriptor *psDescriptor,
 	}
 
 	if(ptr->id != psDescriptor->UniqueID) {
-		fprintf(stderr, "%s is not a control file for ladspa id %ld.\n",
-				filename, ptr->id);
+		fprintf(stderr, "%s is not a control file for ladspa id %lu.\n",
+				filename, (unsigned long)ptr->id);
 		LADSPAcontrolUnMMAP(ptr);
 		free(filename);
 		return NULL;
