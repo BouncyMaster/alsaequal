@@ -278,7 +278,7 @@ SND_CTL_PLUGIN_DEFINE_FUNC(equal)
 			if(equal->control_info[i].name == NULL) {
 				return -1;
 			}
-			sprintf(equal->control_info[i].name, "%02d. %s%s",
+			sprintf(equal->control_info[i].name, "%1d - %s%s",
 					index, equal->klass->PortNames[index], sufix);
 		}
 	}
