@@ -17,7 +17,7 @@ SND_CTL_OBJECTS = ctl_equal.o ladspa_utils.o
 SND_CTL_LIBS =
 SND_CTL_BIN = libasound_module_ctl_equal.so
 
-LIBDIR = lib
+LIBDIR = lib64
 
 .PHONY: all clean dep load_default
 
