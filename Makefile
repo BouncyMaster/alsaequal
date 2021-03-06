@@ -47,7 +47,8 @@ clean:
 
 install: all
 	@echo Installing...
-	$(Q)mkdir -p ${DESTDIR}/usr/$(LIBDIR)/alsa-lib/
+	$(Q)mkdir -p ${DESTDIR}/usr/$(LIBDIR)/alsa-lib
+	$(Q)chmod 755 ${DESTDIR}/usr/$(LIBDIR)/alsa-lib
 	$(Q)install -m 755 $(SND_PCM_BIN) ${DESTDIR}/usr/$(LIBDIR)/alsa-lib/
 	$(Q)install -m 755 $(SND_CTL_BIN) ${DESTDIR}/usr/$(LIBDIR)/alsa-lib/
 
